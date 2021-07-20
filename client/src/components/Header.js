@@ -5,7 +5,7 @@ const Header = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container-fluid">
-        <Link to="#" className="navbar-brand">
+        <Link to="/" className="navbar-brand">
           Restaurant
         </Link>
         <button
@@ -21,14 +21,19 @@ const Header = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
           <ul className="navbar-nav ms-auto ml-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              <Link to="#" className="nav-link " aria-current="page">
-                SignIn
+          <li className="nav-item">
+              <Link to="/" className="nav-link " aria-current="page">
+                Home
               </Link>
             </li>
             <li className="nav-item">
-              <Link to="#" className="nav-link">
-                SignUp
+              <Link to="/signin" className="nav-link " aria-current="page">
+                Signin
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link to="/signup" className="nav-link">
+                Signucdp
               </Link>
             </li>
           </ul>
