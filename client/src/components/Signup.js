@@ -1,5 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import isEmail from "validator/lib/isEmail";
+import isEmpty from "validator/lib/isEmpty";
+import equals from "validator/lib/equals";
+import { showErrorMessage,showSuccessMessage } from "../common/message";
+import { showLoading } from "../common/loading";
 import "../css/signup.css";
 
 const Signup = () => {
@@ -26,13 +31,43 @@ const Signup = () => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
+      errorMessage:'',
+      successMessage:''
     });
   };
 
-  const handleSubmit=(e)=>{
-      e.preventDefault();
-      console.log(formData)
-  }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (
+      isEmpty(username) ||
+      isEmpty(email) ||
+      isEmpty(password) ||
+      isEmpty(confirmPassword)
+    ) {
+      setFormData({
+        ...formData,
+        errorMessage: "All fields are required.",
+      });
+    } else if (!isEmail(email)) {
+      setFormData({
+        ...formData,
+        errorMessage: "Invalid email.",
+      });
+    } else if (!equals(password, confirmPassword)) {
+      setFormData({
+        ...formData,
+        errorMessage: "Password do not match.",
+      });
+    } else {
+      //Success
+      setFormData({
+          ...formData,
+          successMessage:"Successful sign up."
+      })
+    }
+  };
+
   const showSignUpForm = () => (
     <form className="signup-form" onSubmit={handleSubmit}>
       {/* username */}
@@ -49,6 +84,7 @@ const Signup = () => {
           className="form-control"
           placeholder="Username"
           onChange={handleChange}
+          autoComplete="username"
         />
       </div>
       {/* email*/}
@@ -81,6 +117,7 @@ const Signup = () => {
           className="form-control"
           placeholder="Create Password"
           onChange={handleChange}
+          autoComplete="new-password"
         />
       </div>
       {/* Confirm Password*/}
@@ -97,6 +134,7 @@ const Signup = () => {
           className="form-control"
           placeholder="Confirm password"
           onChange={handleChange}
+          autoComplete="new-password"
         />
       </div>
       {/* signup button */}
@@ -115,6 +153,9 @@ const Signup = () => {
     <div className="signup-container">
       <div className="row  px-5 vh-100">
         <div className="col-md-5 mx-auto align-self-center">
+            {successMessage&& showSuccessMessage(successMessage)}
+            {errorMessage&& showErrorMessage(errorMessage)}
+            {loading && <div className="text-center pb-4">{showLoading() }</div>}
           {showSignUpForm()}
         </div>
       </div>
