@@ -5,6 +5,7 @@ import isEmpty from "validator/lib/isEmpty";
 import equals from "validator/lib/equals";
 import { showErrorMessage,showSuccessMessage } from "../common/message";
 import { showLoading } from "../common/loading";
+import { signup } from "../api/auth";
 import "../css/signup.css";
 
 const Signup = () => {
@@ -57,10 +58,34 @@ const Signup = () => {
     } else if (!equals(password, confirmPassword)) {
       setFormData({
         ...formData,
-        errorMessage: "Password do not match.",
+        errorMessagpe: "Password do not match.",
       });
     } else {
       //Success
+      const {username,password,email}=formData;
+      const data={username,password,email};
+      setFormData({
+        ...formData,loading:true,
+      })
+      try {
+        const response=signup(data)
+        console.log('Axios signup success',response)
+        setFormData({
+          username:'',
+          email:'',
+          password:'',
+          confirmPassword:'',
+          successMessage:response.data.successMsg,
+          loading:false
+        })
+      } catch (error) {
+        console.log('Axios signup error',error)
+        setFormData({
+          ...formData,
+          loading:false
+        })
+      }
+
       setFormData({
           ...formData,
           successMessage:"Successful sign up."
