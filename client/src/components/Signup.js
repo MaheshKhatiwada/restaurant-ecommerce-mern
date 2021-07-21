@@ -58,7 +58,7 @@ const Signup = () => {
     } else if (!equals(password, confirmPassword)) {
       setFormData({
         ...formData,
-        errorMessagpe: "Password do not match.",
+        errorMessage: "Password do not match.",
       });
     } else {
       //Success
@@ -69,27 +69,25 @@ const Signup = () => {
       })
       try {
         const response=signup(data)
-        console.log('Axios signup success',response)
+       // console.log('Axios signup success',response)
         setFormData({
           username:'',
           email:'',
           password:'',
           confirmPassword:'',
-          successMessage:response.data.successMsg,
+          //successMessage:response.data.successMsg,
           loading:false
         })
       } catch (error) {
         console.log('Axios signup error',error)
         setFormData({
           ...formData,
-          loading:false
+          loading:false,
+         errorMessage:error.response.data.errorMsg,
         })
       }
 
-      setFormData({
-          ...formData,
-          successMessage:"Successful sign up."
-      })
+
     }
   };
 
