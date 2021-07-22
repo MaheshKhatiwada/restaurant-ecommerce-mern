@@ -3,17 +3,17 @@ import { Link } from "react-router-dom";
 import isEmail from "validator/lib/isEmail";
 import isEmpty from "validator/lib/isEmpty";
 import equals from "validator/lib/equals";
-import { showErrorMessage,showSuccessMessage } from "../common/message";
+import { showErrorMessage, showSuccessMessage } from "../common/message";
 import { showLoading } from "../common/loading";
 import { signup } from "../api/auth";
 import "../css/signup.css";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
+    username: "mahesh",
+    email: "maheshkhatiwada17@gmail.com",
+    password: "123456",
+    confirmPassword: "123456",
     successMessage: false,
     errorMessage: false,
     loading: false,
@@ -32,8 +32,8 @@ const Signup = () => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
-      errorMessage:'',
-      successMessage:''
+      errorMessage: "",
+      successMessage: "",
     });
   };
 
@@ -62,32 +62,31 @@ const Signup = () => {
       });
     } else {
       //Success
-      const {username,password,email}=formData;
-      const data={username,password,email};
+      const { username, password, email } = formData;
+      const data = { username, password, email };
       setFormData({
-        ...formData,loading:true,
-      })
-      try {
-        const response=signup(data)
-       // console.log('Axios signup success',response)
-        setFormData({
-          username:'',
-          email:'',
-          password:'',
-          confirmPassword:'',
-          //successMessage:response.data.successMsg,
-          loading:false
-        })
-      } catch (error) {
-        console.log('Axios signup error',error)
-        setFormData({
-          ...formData,
-          loading:false,
-         errorMessage:error.response.data.errorMsg,
-        })
-      }
+        ...formData,
+        loading: true,
+      });
 
-
+      signup(data)
+        .then((response) => {
+          setFormData({
+            username: "",
+            email: "",
+            password: "",
+            confirmPassword: "",
+            loading: false,
+            successMessage: response.data.successMsg,
+          });
+        })
+        .catch((err) => {
+          setFormData({
+            ...formData,
+            loading: false,
+            errorMessage: err.response.data.errorMsg,
+          });
+        });
     }
   };
 
@@ -176,14 +175,13 @@ const Signup = () => {
     <div className="signup-container">
       <div className="row  px-5 vh-100">
         <div className="col-md-5 mx-auto align-self-center">
-            {successMessage&& showSuccessMessage(successMessage)}
-            {errorMessage&& showErrorMessage(errorMessage)}
-            {loading && <div className="text-center pb-4">{showLoading() }</div>}
+          {successMessage && showSuccessMessage(successMessage)}
+          {errorMessage && showErrorMessage(errorMessage)}
+          {loading && <div className="text-center pb-4">{showLoading()}</div>}
           {showSignUpForm()}
         </div>
       </div>
     </div>
   );
 };
-
 export default Signup;

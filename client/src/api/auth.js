@@ -9,6 +9,8 @@ export const signup=async(data)=>{
             'Content-Type':'application/json'
         },
     };
-    const response =await api.post('/api/auth/signup',data,config)
-    return response;
+        const response =await api.post('/api/auth/signup',data,config)
+        return response;
+
+
 }
