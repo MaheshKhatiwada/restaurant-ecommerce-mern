@@ -1,4 +1,4 @@
 module.exports={
-    jwtSecret:"daadabajaa4a4fasd1aaf11a21afaf1as1fas2f1a21a2as1as2a",
+    jwtSecret:"adanamfnanfamdnadanfandfamndfa5d5saaf2d32adsfavad21fa2sda2",
     jwtExpire:'20h',
 }
