@@ -10,10 +10,10 @@ import "../css/signup.css";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
-    username: "mahesh",
-    email: "maheshkhatiwada17@gmail.com",
-    password: "123456",
-    confirmPassword: "123456",
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
     successMessage: false,
     errorMessage: false,
     loading: false,
@@ -91,7 +91,7 @@ const Signup = () => {
   };
 
   const showSignUpForm = () => (
-    <form className="signup-form" onSubmit={handleSubmit}>
+    <form className="signup-form" onSubmit={handleSubmit} noValidate>
       {/* username */}
       <div className="form-group input-group p-2">
         <div className="input-group-prepend">

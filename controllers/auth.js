@@ -22,7 +22,6 @@ exports.signupControllers = async (req, res) => {
    return  res.json({
       successMsg: "Successful Registration!!!",
     });
-    console.log('successful registration')
   } catch (error) {
       return res.status(500).json({
           errorMsg:'Server error '
