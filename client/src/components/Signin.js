@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { showErrorMessage } from "../common/message";
 import { showLoading } from "../common/loading";
+import isEmail from "validator/lib/isEmail";
+import isEmpty from "validator/lib/isEmpty";
+import { signin } from "../api/auth";
 import "../css/signin.css";
 
 const Signin = () => {
@@ -30,7 +33,31 @@ const Signin = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  }
+    if (
+        isEmpty(email) ||
+        isEmpty(password)
+      ) {
+        setFormData({
+          ...formData,
+          errorMessage: "All fields are required.",
+        });
+      } else if (!isEmail(email)) {
+        setFormData({
+          ...formData,
+          errorMessage: "Invalid email.",
+        });
+      } else {
+        //Success
+        const {  password, email } = formData;
+        const data = {  password, email };
+        setFormData({
+          ...formData,
+          loading: true,
+        });
+
+        signin(data)
+
+  }}
 
   const showSignInForm = () => (
     <form className="signin-form" onSubmit={handleSubmit} noValidate>
