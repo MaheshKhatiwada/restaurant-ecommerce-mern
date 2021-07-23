@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState,useEffect } from "react";
+import { Link ,useHistory} from "react-router-dom";
 import { showErrorMessage } from "../common/message";
 import { showLoading } from "../common/loading";
 import isEmail from "validator/lib/isEmail";
@@ -9,6 +9,15 @@ import "../css/signin.css";
 import { isAuthenticated, setAuthentication } from "../common/auth";
 
 const Signin = () => {
+  let history=useHistory();
+  useEffect(()=>{
+    if(isAuthenticated()&& isAuthenticated().role===1){
+      history.push('/dashboard/admin')
+  }else if(isAuthenticated()&& isAuthenticated().role===0){
+    history.push('/dashboard/user')
+  }
+  },[history ])
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -58,9 +67,9 @@ const Signin = () => {
           .then(response=>{
               setAuthentication(response.data.token,response.data.user)
               if(isAuthenticated()&& isAuthenticated().role===1){
-                  console.log('Redirecting to admin dashboard')
+                  history.push('/dashboard/admin')
               }else{
-                console.log('Redirecting to user dashboard')
+                history.push('/dashboard/user')
               }
 
           })
