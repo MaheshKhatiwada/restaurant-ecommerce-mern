@@ -75,6 +75,11 @@ const Signin = () => {
           })
           .catch(error=>{
             console.log('Sigin error',error)
+            setFormData({
+              ...formData,
+              loading:false,
+              errorMessage:error.response.data.errorMsg,
+            })
           })
 
   }}
