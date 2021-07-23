@@ -6,7 +6,7 @@ import isEmail from "validator/lib/isEmail";
 import isEmpty from "validator/lib/isEmpty";
 import { signin } from "../api/auth";
 import "../css/signin.css";
-import { setAuthentication } from "../common/auth";
+import { isAuthenticated, setAuthentication } from "../common/auth";
 
 const Signin = () => {
   const [formData, setFormData] = useState({
@@ -14,14 +14,12 @@ const Signin = () => {
     password: "",
     errorMessage: false,
     loading: false,
-    redirectToDashboard:false
   });
   const {
     email,
     password,
     errorMessage,
     loading,
-    redirectToDashboard,
   } = formData;
 
   const handleChange = (e) => {
@@ -59,6 +57,12 @@ const Signin = () => {
         signin(data)
           .then(response=>{
               setAuthentication(response.data.token,response.data.user)
+              if(isAuthenticated()&& isAuthenticated().role===1){
+                  console.log('Redirecting to admin dashboard')
+              }else{
+                console.log('Redirecting to user dashboard')
+              }
+
           })
           .catch(error=>{
             console.log('Sigin error',error)
