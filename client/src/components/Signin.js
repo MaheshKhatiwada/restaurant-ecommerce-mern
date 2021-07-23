@@ -6,6 +6,7 @@ import isEmail from "validator/lib/isEmail";
 import isEmpty from "validator/lib/isEmpty";
 import { signin } from "../api/auth";
 import "../css/signin.css";
+import { setAuthentication } from "../common/auth";
 
 const Signin = () => {
   const [formData, setFormData] = useState({
@@ -56,6 +57,12 @@ const Signin = () => {
         });
 
         signin(data)
+          .then(response=>{
+              setAuthentication(response.data.token,response.data.user)
+          })
+          .catch(error=>{
+            console.log('Sigin error',error)
+          })
 
   }}
 
