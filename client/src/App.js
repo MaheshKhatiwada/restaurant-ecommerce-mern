@@ -8,6 +8,8 @@ import Signup from './components/Signup';
 import NotFound from './components/NotFound';
 import AdminDashboard from './components/AdminDashboard';
 import UserDashboard from './components/UserDashboard';
+import AdminRoute from './components/AdminRoute';
+import UserRoute from './components/UserRoute';
 
 const App=()=> {
   return (
@@ -18,8 +20,8 @@ const App=()=> {
           <Route exact path="/" component={Home}/>
           <Route exact path="/signin" component={Signin}/>
           <Route exact path="/signup" component={Signup}/>
-          <Route exact path="/dashboard/admin" component={AdminDashboard}/>
-          <Route exact path="/dashboard/user" component={UserDashboard}/>
+          <AdminRoute exact path="/dashboard/admin" component={AdminDashboard}/>
+          <UserRoute exact path="/dashboard/user" component={UserDashboard}/>
           <Route component={NotFound}/>
         </Switch>
       </main>
