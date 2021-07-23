@@ -1,8 +1,12 @@
 import React from "react";
 import { Link,withRouter} from "react-router-dom";
-import { isAuthenticated } from "../common/auth";
+import { isAuthenticated,logout} from "../common/auth";
 
-const Header = () => {
+const Header = ({history}) => {
+  const handleLogout=()=>{
+    logout();
+      history.push('/signin')
+  }
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container-fluid">
@@ -62,9 +66,12 @@ const Header = () => {
             {isAuthenticated() && (
               <React.Fragment>
                 <li className="nav-item">
-                  <Link to="/" className="nav-link " aria-current="page">
+                  <button className="btn btn-link text-secondary text-decoration-none ps-0"
+                  aria-current="page"
+                  onClick={handleLogout}
+                  >
                     Logout
-                  </Link>
+                  </button>
                 </li>
               </React.Fragment>
             )}
