@@ -1,6 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 
 const AdminDashboard = () => {
+  const [category, setCategory] = useState('');
+
+  const handleChange=(e)=>{
+      setCategory(e.target.value)
+  }
+  const handleSubmit=(e)=>{
+      e.preventDefault();
+      console.log(category)
+  }
+
   const showHeader = () => (
     <div className="bg-dark text-white py-3 mx-2">
       <div className="container">
@@ -46,20 +56,34 @@ const AdminDashboard = () => {
     <div id="addCategoryModal" className="modal">
       <div className="modal-dialog modal-dialog-centered modal-lg">
         <div className="modal-content">
+        <form onClick={handleSubmit}>
           <div className="modal-header bg-info text-white ">
             <h5 className="modal-title ">Add Category</h5>
-            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button
+              type="button"
+              className="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
           </div>
           <div className="modal-body my-2">
-              <form >
-                  <label className="text-secondary my-1">Category</label>
-                  <input type="text" name="" id="" className="form-control" />
-              </form>
+
+              <label className="text-secondary my-1">Category</label>
+              <input
+                type="text"
+                className="form-control"
+                name="category"
+                value={category}
+                onChange={handleChange}
+              />
           </div>
           <div className="modal-footer">
-              <button className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button className="btn btn-info">Submit</button>
+            <button className="btn btn-secondary" data-bs-dismiss="modal">
+              Close
+            </button>
+            <button type="submit" className="btn btn-info" >Submit</button>
           </div>
+          </form>
         </div>
       </div>
     </div>
