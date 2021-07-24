@@ -30,17 +30,17 @@ const Header = ({history}) => {
               <React.Fragment>
                 <li className="nav-item">
                   <Link to="/" className="nav-link " aria-current="page">
-                    Home
+                      <i className="fas fa-home "></i>  Home
                   </Link>
                 </li>
                 <li className="nav-item">
                   <Link to="/signin" className="nav-link " aria-current="page">
-                    Signin
+                    <i className="fas fa-sign-in-alt"></i>  Signin
                   </Link>
                 </li>
                 <li className="nav-item">
                   <Link to="/signup" className="nav-link">
-                    Signup
+                    <i className="fas fa-edit"></i>  Signup
                   </Link>
                 </li>
               </React.Fragment>
@@ -49,7 +49,7 @@ const Header = ({history}) => {
               <React.Fragment>
                 <li className="nav-item">
                   <Link to="/dashboard/user" className="nav-link " aria-current="page">
-                    Dashboard
+                    <i className="fas fa-home"></i>  Dashboard
                   </Link>
                 </li>
               </React.Fragment>
@@ -58,7 +58,7 @@ const Header = ({history}) => {
               <React.Fragment>
                 <li className="nav-item">
                   <Link to="/dashboard/admin" className="nav-link " aria-current="page">
-                    Dashboard
+                  <i className="fas fa-home"></i>   Dashboard
                   </Link>
                 </li>
               </React.Fragment>
@@ -70,7 +70,7 @@ const Header = ({history}) => {
                   aria-current="page"
                   onClick={handleLogout}
                   >
-                    Logout
+                   <i className="fas fa-sign-out-alt"></i>  Logout
                   </button>
                 </li>
               </React.Fragment>
