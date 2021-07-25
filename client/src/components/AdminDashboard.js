@@ -38,8 +38,7 @@ const AdminDashboard = () => {
         .catch((error) =>
         {
           setLoading(false);
-          setErrorMessage(error.response.data.errorMessage);
-          setCategory('')
+          setErrorMessage(error.response.data.errorMsg);
         });
       }
     }

@@ -1,7 +1,5 @@
-exports.categoryController=(req,res)=>{
-    setTimeout(()=>{
-        res.json({
-            successMsg:`${req.body.category} added`
-        })
-    },2000)
-}
+exports.create = (req, res) => {
+  res.json({
+    successMsg: `${req.body.category} added`,
+  });
+};
