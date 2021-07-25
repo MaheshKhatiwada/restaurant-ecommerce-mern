@@ -1,3 +1,7 @@
 exports.categoryController=(req,res)=>{
-    res.status(200).send('Category Controller')
+    setTimeout(()=>{
+        res.json({
+            successMsg:`${req.body.category} added`
+        })
+    },2000)
 }

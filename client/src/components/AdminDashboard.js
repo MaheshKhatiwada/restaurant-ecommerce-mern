@@ -1,21 +1,48 @@
 import React, { useState } from "react";
 import { addCategory } from "../api/category";
+import { showErrorMessage, showSuccessMessage } from "../common/message";
+import { showLoading } from "../common/loading";
+import isEmpty from "validator/lib/isEmpty";
 
 const AdminDashboard = () => {
   const [category, setCategory] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
+    setErrorMessage('');
+    setSuccessMessage('')
     setCategory(e.target.value);
   };
+
+  const handleModalMessage=()=>{
+    setErrorMessage('')
+    setSuccessMessage('')
+
+  }
   const handleSubmit = (e) => {
     e.preventDefault();
-    const data = { category };
-
-    addCategory(data)
-      .then((response) => console.log(response))
-      .catch((error) => console.log(error));
-  };
-
+    if (isEmpty(category)) {
+      setErrorMessage('Please enter a category');
+    } else {
+      setLoading(true);
+      const data = { category };
+      addCategory(data)
+      .then((response) =>{
+        setLoading(false)
+        setSuccessMessage(response.data.successMsg)
+        setCategory('')
+        }
+        )
+        .catch((error) =>
+        {
+          setLoading(false);
+          setErrorMessage(error.response.data.errorMessage);
+          setCategory('')
+        });
+      }
+    }
   const showHeader = () => (
     <div className="bg-dark text-white py-3 mx-2">
       <div className="container">
@@ -58,10 +85,10 @@ const AdminDashboard = () => {
     </div>
   );
   const showAddCategoryModal = () => (
-    <div id="addCategoryModal" className="modal">
+    <div id="addCategoryModal" className="modal"  onClick={handleModalMessage}>
       <div className="modal-dialog modal-dialog-centered modal-lg">
         <div className="modal-content">
-          <form onClick={handleSubmit}>
+          <form onSubmit={handleSubmit}>
             <div className="modal-header bg-info text-white ">
               <h5 className="modal-title ">Add Category</h5>
               <button
@@ -72,17 +99,25 @@ const AdminDashboard = () => {
               ></button>
             </div>
             <div className="modal-body my-2">
-              <label className="text-secondary my-1">Category</label>
-              <input
-                type="text"
-                className="form-control"
-                name="category"
-                value={category}
-                onChange={handleChange}
-              />
+              {successMessage && showSuccessMessage(successMessage)}
+              {errorMessage && showErrorMessage(errorMessage)}
+              {loading ? (
+                <div className="text-center">{showLoading()}</div>
+              ) : (
+                <>
+                  <label className="text-secondary my-1">Category</label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="category"
+                    value={category}
+                    onChange={handleChange}
+                  />
+                </>
+              )}
             </div>
             <div className="modal-footer">
-              <button className="btn btn-secondary" data-bs-dismiss="modal">
+              <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">
                 Close
               </button>
               <button type="submit" className="btn btn-info">
