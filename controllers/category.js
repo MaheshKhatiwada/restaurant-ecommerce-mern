@@ -3,6 +3,13 @@ exports.create = async (req, res) => {
   const { category } = req.body;
 
   try {
+    const categoryExists= await Category.find({category})
+    if(categoryExists){
+      return res.status(404).json({
+        errorMsg:`${category} already exists`
+      })
+    }
+
     const newCategory = new Category({
       category,
     });
