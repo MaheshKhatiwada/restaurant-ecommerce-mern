@@ -155,7 +155,52 @@ const AdminDashboard = () => {
                 <div className="text-center">{showLoading()}</div>
               ) : (
                 <>
+                  <div className="input-group mb-3">
+                    <input
+                      type="file"
+                      className="form-control"
+                      id="inputGroupFile"
+                    />
+                    <label class="input-group-text" for="inputGroupFile">
+                      Upload
+                    </label>
+                  </div>
 
+                  <div className="form-group mb-3">
+                    <label className="text-secondary">Name</label>
+                    <input type="text" className="form-control" />
+                  </div>
+
+                  <div className="form-floating mb-2">
+                    <textarea
+                      className="form-control"
+                      placeholder="Leave a comment here"
+                      id="floatingTextarea"
+                      style={{height: "100px"}}
+                    ></textarea>
+                    <label for="floatingTextarea">Description</label>
+                  </div>
+
+                  <div className="form-group mb-3">
+                    <label className="text-secondary">Price</label>
+                    <input type="number" className="form-control" />
+                  </div>
+
+                  <div className="row">
+                    <div className="col-md-6">
+                        <label className="text-secondary">Category</label>
+                        <select className="form-select">
+                          <option value="">Choose one...</option>
+                          <option value="">Meat</option>
+                          <option value="">Fish</option>
+                          <option value="">Drinks </option>
+                        </select>
+                    </div>
+                    <div className="col-md-6">
+                      <label className="text-secondary">Quantity</label>
+                      <input type="number" className="form-control" min="0" max="1000" />
+                    </div>
+                  </div>
                 </>
               )}
             </div>
