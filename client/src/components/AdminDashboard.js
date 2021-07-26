@@ -10,12 +10,26 @@ const AdminDashboard = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [productData, setProductData] = useState({
+    productImage: null,
+    productName: "",
+    productDesc: "",
+    productPrice: "",
+    productCategory: "",
+    productQty: "",
+  });
+  const {
+    productName,
+    productPrice,
+    productDesc,
+    productQty,
+  } = productData;
 
   useEffect(() => {
     loadCategories();
   }, [loading]);
 
-  const loadCategories =  () => {
+  const loadCategories = () => {
     getCategories()
       .then((response) => setCategories(response.data.categories))
       .catch((error) => console.log("loading category error", error));
@@ -31,6 +45,18 @@ const AdminDashboard = () => {
     setErrorMessage("");
     setSuccessMessage("");
   };
+  const handelImageChange=(e)=>{
+    setProductData({
+      ...productData,
+      [e.target.name]:e.target.files[0] //for image it should be e.target.files[0]
+    })
+  }
+  const handleProductChange=(e)=>{
+    setProductData({
+      ...productData,
+      [e.target.name]:e.target.value,
+    })
+  }
   const handleSubmit = (e) => {
     e.preventDefault();
     if (isEmpty(category)) {
@@ -170,41 +196,55 @@ const AdminDashboard = () => {
                     <input
                       type="file"
                       className="form-control"
-
+                      name="productImage"
+                      onChange={handelImageChange}
                     />
-                    <label className="input-group-text" >
-                      Upload
-                    </label>
+                    <label className="input-group-text">Upload</label>
                   </div>
 
                   <div className="form-group mb-3">
                     <label className="text-secondary">Name</label>
-                    <input type="text" className="form-control" />
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="productName"
+                      value={productName}
+                      onChange={handleProductChange}
+                    />
                   </div>
 
                   <div className="form-floating mb-2">
                     <textarea
                       className="form-control"
                       placeholder="Leave a comment here"
-
                       style={{ height: "100px" }}
+                      name="productDesc"
+                      value={productDesc}
+                      onChange={handleProductChange}
                     ></textarea>
                     <label>Description</label>
                   </div>
 
                   <div className="form-group mb-3">
                     <label className="text-secondary">Price</label>
-                    <input type="number" className="form-control" />
+                    <input type="number" className="form-control"
+                      name="productPrice"
+                      value={productPrice}
+                      onChange={handleProductChange}
+                    />
                   </div>
 
                   <div className="row">
                     <div className="col-md-6">
                       <label className="text-secondary">Category</label>
-                      <select className="form-select">
+                      <select className="form-select" name="productCategory" onChange={handleProductChange}>
                         <option value="">Choose one...</option>
-                       {categories&&categories.map(c=>(
-                         <option value={c._id} key={c._id}>{c.category}</option>
-                       ))}
+                        {categories &&
+                          categories.map((c) => (
+                            <option value={c._id} key={c._id}>
+                              {c.category}
+                            </option>
+                          ))}
                       </select>
                     </div>
                     <div className="col-md-6">
@@ -214,6 +254,9 @@ const AdminDashboard = () => {
                         className="form-control"
                         min="0"
                         max="1000"
+                        name="productQty"
+                        value={productQty}
+                        onChange={handleProductChange}
                       />
                     </div>
                   </div>
