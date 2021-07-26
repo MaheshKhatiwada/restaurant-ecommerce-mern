@@ -1,14 +1,25 @@
-import React, { useState } from "react";
-import { addCategory } from "../api/category";
+import React, { useState, useEffect } from "react";
+import { addCategory, getCategories } from "../api/category";
 import { showErrorMessage, showSuccessMessage } from "../common/message";
 import { showLoading } from "../common/loading";
 import isEmpty from "validator/lib/isEmpty";
 
 const AdminDashboard = () => {
   const [category, setCategory] = useState("");
+  const [categories, setCategories] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    loadCategories();
+  }, [loading]);
+
+  const loadCategories =  () => {
+    getCategories()
+      .then((response) => setCategories(response.data.categories))
+      .catch((error) => console.log("loading category error", error));
+  };
 
   const handleChange = (e) => {
     setErrorMessage("");
@@ -159,9 +170,9 @@ const AdminDashboard = () => {
                     <input
                       type="file"
                       className="form-control"
-                      id="inputGroupFile"
+
                     />
-                    <label class="input-group-text" for="inputGroupFile">
+                    <label className="input-group-text" >
                       Upload
                     </label>
                   </div>
@@ -175,10 +186,10 @@ const AdminDashboard = () => {
                     <textarea
                       className="form-control"
                       placeholder="Leave a comment here"
-                      id="floatingTextarea"
-                      style={{height: "100px"}}
+
+                      style={{ height: "100px" }}
                     ></textarea>
-                    <label for="floatingTextarea">Description</label>
+                    <label>Description</label>
                   </div>
 
                   <div className="form-group mb-3">
@@ -188,17 +199,22 @@ const AdminDashboard = () => {
 
                   <div className="row">
                     <div className="col-md-6">
-                        <label className="text-secondary">Category</label>
-                        <select className="form-select">
-                          <option value="">Choose one...</option>
-                          <option value="">Meat</option>
-                          <option value="">Fish</option>
-                          <option value="">Drinks </option>
-                        </select>
+                      <label className="text-secondary">Category</label>
+                      <select className="form-select">
+                        <option value="">Choose one...</option>
+                       {categories&&categories.map(c=>(
+                         <option value={c._id} key={c._id}>{c.category}</option>
+                       ))}
+                      </select>
                     </div>
                     <div className="col-md-6">
                       <label className="text-secondary">Quantity</label>
-                      <input type="number" className="form-control" min="0" max="1000" />
+                      <input
+                        type="number"
+                        className="form-control"
+                        min="0"
+                        max="1000"
+                      />
                     </div>
                   </div>
                 </>
