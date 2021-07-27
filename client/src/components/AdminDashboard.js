@@ -87,8 +87,18 @@ const AdminDashboard = () => {
       formData.append("productQty", productQty);
 
       createProduct(formData)
-        .then((response) => console.log("created response", response))
-        .catch((error) => console.log("error", error));
+        .then((response) => {
+          setSuccessMessage(response.data.successMsg)
+          setProductData({
+            productImage: null,
+            productName: "",
+            productDesc: "",
+            productPrice: "",
+            productCategory: "",
+            productQty: "",
+          });
+        })
+        .catch((error) => setErrorMessage(error.response.data.errorMsg));
     }
   };
   const handleSubmit = (e) => {

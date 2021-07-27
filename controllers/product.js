@@ -1,8 +1,26 @@
+const Product=require('../models/Product')
 exports.create=async (req,res)=>{
-    console.log('Body is',req.body)
-    console.log('Image is',req.file)
+    const {filename}=req.file;
+    const {productName,productDesc,productPrice,productCategory,productQty}=req.body;
 
-    res.status(200).json({
-        message:"File uploaded"
-    })
+    try{
+        const product = new Product();
+        product.filename=filename;
+        product.productName=productName;
+        product.productDesc=productDesc;
+        product.productPrice=productPrice;
+        product.productCategory=productCategory;
+        product.productQty=productQty;
+
+        await product.save();
+        res.status(200).json({
+            successMsg:`${productName} was added`,
+            product
+        })
+
+    }catch(error){
+        res.status(500).json({
+            errorMsg:"Please try again later"
+        })
+    }
 }
