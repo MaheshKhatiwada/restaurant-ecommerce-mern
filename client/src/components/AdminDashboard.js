@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { addCategory, getCategories } from "../api/category";
+import { createProduct } from "../api/product";
+
 import { showErrorMessage, showSuccessMessage } from "../common/message";
 import { showLoading } from "../common/loading";
 import isEmpty from "validator/lib/isEmpty";
@@ -19,10 +21,12 @@ const AdminDashboard = () => {
     productQty: "",
   });
   const {
+    productImage,
     productName,
     productPrice,
     productDesc,
     productQty,
+    productCategory,
   } = productData;
 
   useEffect(() => {
@@ -45,18 +49,48 @@ const AdminDashboard = () => {
     setErrorMessage("");
     setSuccessMessage("");
   };
-  const handelImageChange=(e)=>{
+  const handelImageChange = (e) => {
     setProductData({
       ...productData,
-      [e.target.name]:e.target.files[0] //for image it should be e.target.files[0]
-    })
-  }
-  const handleProductChange=(e)=>{
+      [e.target.name]: e.target.files[0], //for image it should be e.target.files[0]
+    });
+  };
+  const handleProductChange = (e) => {
     setProductData({
       ...productData,
-      [e.target.name]:e.target.value,
-    })
-  }
+      [e.target.name]: e.target.value,
+    });
+  };
+  const handleProductSubmit = (e) => {
+    e.preventDefault();
+
+    if (productImage === null) {
+      setErrorMessage("Please upload the image");
+    } else if (
+      isEmpty(productName) ||
+      isEmpty(productPrice) ||
+      isEmpty(productDesc)
+    ) {
+      setErrorMessage("All fields are required");
+    } else if (isEmpty(productCategory)) {
+      setErrorMessage("Please select a category");
+    } else if (isEmpty(productQty)) {
+      setErrorMessage("Please enter the quantity");
+    } else {
+      //Success
+      const formData = new FormData();
+      formData.append("productImage", productImage);
+      formData.append("productName", productName);
+      formData.append("productPrice", productPrice);
+      formData.append("productDesc", productDesc);
+      formData.append("productCategory", productCategory);
+      formData.append("productQty", productQty);
+
+      createProduct(formData)
+        .then((response) => console.log("created response", response))
+        .catch((error) => console.log("error", error));
+    }
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     if (isEmpty(category)) {
@@ -175,7 +209,7 @@ const AdminDashboard = () => {
     <div id="addFoodModal" className="modal" onClick={handleModalMessage}>
       <div className="modal-dialog modal-dialog-centered modal-lg">
         <div className="modal-content">
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleProductSubmit}>
             <div className="modal-header bg-warning text-white ">
               <h5 className="modal-title ">Add Food</h5>
               <button
@@ -227,7 +261,9 @@ const AdminDashboard = () => {
 
                   <div className="form-group mb-3">
                     <label className="text-secondary">Price</label>
-                    <input type="number" className="form-control"
+                    <input
+                      type="number"
+                      className="form-control"
                       name="productPrice"
                       value={productPrice}
                       onChange={handleProductChange}
@@ -237,7 +273,11 @@ const AdminDashboard = () => {
                   <div className="row">
                     <div className="col-md-6">
                       <label className="text-secondary">Category</label>
-                      <select className="form-select" name="productCategory" onChange={handleProductChange}>
+                      <select
+                        className="form-select"
+                        name="productCategory"
+                        onChange={handleProductChange}
+                      >
                         <option value="">Choose one...</option>
                         {categories &&
                           categories.map((c) => (
