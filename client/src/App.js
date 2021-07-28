@@ -11,7 +11,7 @@ import UserDashboard from "./components/UserDashboard";
 import AdminRoute from "./components/AdminRoute";
 import UserRoute from "./components/UserRoute";
 import { useDispatch } from "react-redux";
-import { getCategories } from "./redux/actions/getCategoriesAction";
+import { getCategories } from "./redux/actions/categoriesAction";
 
 const App = () => {
   const dispatch = useDispatch();

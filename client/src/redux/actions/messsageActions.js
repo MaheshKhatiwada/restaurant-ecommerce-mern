@@ -1,6 +1,6 @@
 import { CLEAR_MESSAGE } from "../constants/messageConstants";
 
-export const clear_message=()=>dispatch=>{
+export const clearMessages=()=>dispatch=>{
     dispatch({
         type:CLEAR_MESSAGE
     })

@@ -1,41 +1,35 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import { showErrorMessage, showSuccessMessage } from "../common/message";
 import { showLoading } from "../common/loading";
-import { addCategory} from "../api/category";
 import isEmpty from "validator/lib/isEmpty";
+import { useSelector, useDispatch } from "react-redux";
+import { createCategory } from "../redux/actions/categoriesAction";
+import { clearMessages } from "../redux/actions/messsageActions";
 
 const AdminCategoryModal = () => {
-    const [category, setCategory] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [loading, setLoading] = useState(false);
+  const dispatch=useDispatch();
+  const { successMessage, errorMessage } = useSelector(
+    (state) => state.message
+  );
+  const { loading } = useSelector((state) => state.loading);
+  const[clientErrorMessage,setClientErrorMessage]=useState('')
+  const [category, setCategory] = useState("");
+
   const handleChange = (e) => {
-    setErrorMessage("");
-    setSuccessMessage("");
+   dispatch(clearMessages());
     setCategory(e.target.value);
   };
 
   const handleModalMessage = () => {
-    setErrorMessage("");
-    setSuccessMessage("");
+    dispatch(clearMessages())
   };
   const handleSubmit = (e) => {
     e.preventDefault();
     if (isEmpty(category)) {
-      setErrorMessage("Please enter a category");
+      setClientErrorMessage("Please enter a category");
     } else {
-      setLoading(true);
       const data = { category };
-      addCategory(data)
-        .then((response) => {
-          setLoading(false);
-          setSuccessMessage(response.data.successMsg);
-          setCategory("");
-        })
-        .catch((error) => {
-          setLoading(false);
-          setErrorMessage(error.response.data.errorMsg);
-        });
+     dispatch(createCategory(data))
     }
   };
   return (
@@ -54,6 +48,7 @@ const AdminCategoryModal = () => {
             </div>
             <div className="modal-body my-2">
               {successMessage && showSuccessMessage(successMessage)}
+              {clientErrorMessage && showErrorMessage(clientErrorMessage)}
               {errorMessage && showErrorMessage(errorMessage)}
               {loading ? (
                 <div className="text-center">{showLoading()}</div>
