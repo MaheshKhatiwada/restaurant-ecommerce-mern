@@ -1,32 +1,43 @@
+import React, { useEffect } from "react";
+import "./App.css";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+import Header from "./components/Header.js";
+import Home from "./components/Home";
+import Signin from "./components/Signin";
+import Signup from "./components/Signup";
+import NotFound from "./components/NotFound";
+import AdminDashboard from "./components/AdminDashboard";
+import UserDashboard from "./components/UserDashboard";
+import AdminRoute from "./components/AdminRoute";
+import UserRoute from "./components/UserRoute";
+import { useDispatch } from "react-redux";
+import { getCategories } from "./redux/actions/getCategoriesAction";
 
-import './App.css';
-import {BrowserRouter,Switch,Route} from 'react-router-dom';
-import Header from  './components/Header.js'
-import Home from './components/Home';
-import Signin from './components/Signin';
-import Signup from './components/Signup';
-import NotFound from './components/NotFound';
-import AdminDashboard from './components/AdminDashboard';
-import UserDashboard from './components/UserDashboard';
-import AdminRoute from './components/AdminRoute';
-import UserRoute from './components/UserRoute';
+const App = () => {
+  const dispatch = useDispatch();
 
-const App=()=> {
+  useEffect(() => {
+    dispatch(getCategories());
+  }, [dispatch]);
   return (
     <BrowserRouter>
-      <Header/>
+      <Header />
       <main>
         <Switch>
-          <Route exact path="/" component={Home}/>
-          <Route exact path="/signin" component={Signin}/>
-          <Route exact path="/signup" component={Signup}/>
-          <AdminRoute exact path="/dashboard/admin" component={AdminDashboard}/>
-          <UserRoute exact path="/dashboard/user" component={UserDashboard}/>
-          <Route component={NotFound}/>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/signin" component={Signin} />
+          <Route exact path="/signup" component={Signup} />
+          <AdminRoute
+            exact
+            path="/dashboard/admin"
+            component={AdminDashboard}
+          />
+          <UserRoute exact path="/dashboard/user" component={UserDashboard} />
+          <Route component={NotFound} />
         </Switch>
       </main>
     </BrowserRouter>
   );
-}
+};
 
 export default App;
