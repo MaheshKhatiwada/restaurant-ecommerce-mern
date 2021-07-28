@@ -18,6 +18,7 @@ const AdminCategoryModal = () => {
   const handleChange = (e) => {
    dispatch(clearMessages());
     setCategory(e.target.value);
+    setClientErrorMessage('')
   };
 
   const handleModalMessage = () => {
@@ -30,6 +31,8 @@ const AdminCategoryModal = () => {
     } else {
       const data = { category };
      dispatch(createCategory(data))
+     setCategory('');
+
     }
   };
   return (

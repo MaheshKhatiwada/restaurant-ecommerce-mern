@@ -1,15 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { createProduct } from "../api/product";
-import { getCategories } from "../api/category";
+
 import isEmpty from "validator/lib/isEmpty";
 import { showErrorMessage, showSuccessMessage } from "../common/message";
 import { showLoading } from "../common/loading";
+import { useSelector, useDispatch } from "react-redux";
+import { clearMessages } from "../redux/actions/messsageActions";
+
 
 const AdminProductModal = () => {
-  const [categories, setCategories] = useState(null);
-  const [successMessage, setSuccessMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [loading, setLoading] = useState(false);
+  const dispatch=useDispatch();
+  const { successMessage, errorMessage } = useSelector(
+    (state) => state.message
+  );
+  const { loading } = useSelector((state) => state.loading);
+  const { categories} = useSelector((state) => state.categories);
+
+  const[clientErrorMessage,setClientErrorMessage]=useState('');
   const [productData, setProductData] = useState({
     productImage: null,
     productName: "",
@@ -26,15 +33,6 @@ const AdminProductModal = () => {
     productQty,
     productCategory,
   } = productData;
-  useEffect(() => {
-    loadCategories();
-  }, [loading]);
-
-  const loadCategories = () => {
-    getCategories()
-      .then((response) => setCategories(response.data.categories))
-      .catch((error) => console.log("loading category error", error));
-  };
 
   const handelImageChange = (e) => {
     setProductData({
@@ -49,24 +47,24 @@ const AdminProductModal = () => {
     });
   };
   const handleModalMessage = () => {
-    setErrorMessage("");
-    setSuccessMessage("");
+   dispatch(clearMessages());
+   setClientErrorMessage('');
   };
   const handleProductSubmit = (e) => {
     e.preventDefault();
 
     if (productImage === null) {
-      setErrorMessage("Please upload the image");
+      setClientErrorMessage("Please upload the image");
     } else if (
       isEmpty(productName) ||
       isEmpty(productPrice) ||
       isEmpty(productDesc)
     ) {
-      setErrorMessage("All fields are required");
+      setClientErrorMessage("All fields are required");
     } else if (isEmpty(productCategory)) {
-      setErrorMessage("Please select a category");
+      setClientErrorMessage("Please select a category");
     } else if (isEmpty(productQty)) {
-      setErrorMessage("Please enter the quantity");
+      setClientErrorMessage("Please enter the quantity");
     } else {
       //Success
 
@@ -77,24 +75,17 @@ const AdminProductModal = () => {
       formData.append("productDesc", productDesc);
       formData.append("productCategory", productCategory);
       formData.append("productQty", productQty);
-      setLoading(true);
-      createProduct(formData)
-        .then((response) => {
-          setLoading(false);
-          setSuccessMessage(response.data.successMsg);
-          setProductData({
-            productImage: null,
-            productName: "",
-            productDesc: "",
-            productPrice: "",
-            productCategory: "",
-            productQty: "",
-          });
-        })
-        .catch((error) => {
-          setLoading(false);
-          setErrorMessage(error.response.data.errorMsg);
-        });
+
+      dispatch(createProduct(formData))
+      setProductData({
+        productImage: null,
+        productName: "",
+        productDesc: "",
+        productPrice: "",
+        productCategory: "",
+        productQty: "",
+      });
+
     }
   };
   return (
@@ -113,6 +104,7 @@ const AdminProductModal = () => {
             </div>
             <div className="modal-body my-2">
               {successMessage && showSuccessMessage(successMessage)}
+              {clientErrorMessage&&showErrorMessage(clientErrorMessage)}
               {errorMessage && showErrorMessage(errorMessage)}
               {loading ? (
                 <div className="text-center">{showLoading()}</div>
