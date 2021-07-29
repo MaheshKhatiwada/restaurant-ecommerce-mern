@@ -4,5 +4,7 @@ const upload=require('../middleware/multer')
 const productController=require('../controllers/product')
 
 router.post('/',upload.single('productImage'),productController.create)
+router.get('/',productController.readAll)
+
 
 module.exports =router;
