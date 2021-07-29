@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { createProduct } from "../api/product";
-
 import isEmpty from "validator/lib/isEmpty";
 import { showErrorMessage, showSuccessMessage } from "../common/message";
 import { showLoading } from "../common/loading";
 import { useSelector, useDispatch } from "react-redux";
 import { clearMessages } from "../redux/actions/messsageActions";
+import { createProduct } from "../redux/actions/productActions";
 
 
 const AdminProductModal = () => {

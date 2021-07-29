@@ -100,6 +100,7 @@ const Signin = () => {
           className="form-control"
           placeholder="Email Address"
           onChange={handleChange}
+          autoComplete="username"
         />
       </div>
       {/* password*/}
@@ -116,6 +117,7 @@ const Signin = () => {
           className="form-control"
           placeholder="Password"
           onChange={handleChange}
+          autoComplete="current-password"
         />
       </div>
       {/* signin button */}

@@ -29,7 +29,7 @@ exports.readAll=async (req,res)=>{
     try{
         const products=await Product.find({}).populate('productCategory','category')
 
-        res.json(products);
+        res.json({products});
 
     }catch(error){
         res.status(500).json({
