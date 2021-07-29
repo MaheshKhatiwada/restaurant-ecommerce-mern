@@ -1,14 +1,15 @@
 import React from 'react'
 import {useSelector} from 'react-redux';
+import Card from './Card';
 
 const AdminBody = () => {
     const {products}=useSelector(state=>state.products)
     return (
         <div className="container">
             <div className="row">
-                <div className="card-deck">
+                <div className="card-group">
                     {products.map(product=>(
-                        <div className="card" key={product._id}> {product.productName}</div>
+                        <Card key={product._id} product={product} />
                     ))}
                 </div>
             </div>
