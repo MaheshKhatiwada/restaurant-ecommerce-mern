@@ -57,7 +57,7 @@ exports.delete = async (req, res) => {
     })
 
     res.json({
-        deletedProduct
+        product:deletedProduct
     })
 
 

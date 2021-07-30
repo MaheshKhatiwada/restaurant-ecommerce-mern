@@ -1,14 +1,16 @@
-import React ,{useEffect} from 'react'
+import React  from 'react'
 import {Link} from 'react-router-dom'
 import  {useDispatch} from 'react-redux';
-import { deleteProduct, getProducts} from '../redux/actions/productActions';
+import { deleteProduct} from '../redux/actions/productActions';
 
 const baseUrl="http://localhost:5000"
 
 const Card = ({product}) => {
     const dispatch = useDispatch();
 
-
+    const handleDelete=()=>{
+        dispatch(deleteProduct(product._id))
+    }
     return (
         <div className="col-md-4 my-3 px-3">
             <div className="card h-100">
@@ -36,7 +38,7 @@ const Card = ({product}) => {
                     </button>
                     <button
                     type="button"
-                    className="btn btn-danger btn-sm" onClick={()=>{dispatch(deleteProduct(product._id))}}>
+                    className="btn btn-danger btn-sm" onClick={()=>{handleDelete(product._id)}}>
                         <i className="far fa-trash-alt pr-1 "></i>
                            Delete
                     </button>

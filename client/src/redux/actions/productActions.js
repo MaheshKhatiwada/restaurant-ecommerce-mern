@@ -38,7 +38,7 @@ export const deleteProduct = (productId) => async (dispatch) => {
     dispatch({ type: START_LOADING });
     const response = await axios.delete(`/api/product/${productId}`);
     dispatch({ type: STOP_LOADING });
-    dispatch({ type: DELETE_PRODUCT, payload: response.data});
+    dispatch({ type: DELETE_PRODUCT, payload: response.data.product});
   } catch (error) {
     console.log("deleteProduct error", error);
     dispatch({ type: STOP_LOADING });
