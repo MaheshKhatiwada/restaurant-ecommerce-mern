@@ -7,6 +7,7 @@ import Signin from "./components/Signin";
 import Signup from "./components/Signup";
 import NotFound from "./components/NotFound";
 import AdminDashboard from "./components/AdminDashboard";
+import AdminEditProduct from "./components/AdminEditProduct";
 import UserDashboard from "./components/UserDashboard";
 import AdminRoute from "./components/AdminRoute";
 import UserRoute from "./components/UserRoute";
@@ -24,6 +25,11 @@ const App = () => {
             exact
             path="/dashboard/admin"
             component={AdminDashboard}
+          />
+          <AdminRoute
+            exact
+            path="/admin/edit/product/:productId"
+            component={AdminEditProduct}
           />
           <UserRoute exact path="/dashboard/user" component={UserDashboard} />
           <Route component={NotFound} />
