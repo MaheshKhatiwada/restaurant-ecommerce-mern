@@ -5,6 +5,8 @@ const productController=require('../controllers/product')
 
 router.post('/',upload.single('productImage'),productController.create)
 router.get('/',productController.readAll)
+router.delete('/:productId',productController.delete)
+
 
 
 module.exports =router;
