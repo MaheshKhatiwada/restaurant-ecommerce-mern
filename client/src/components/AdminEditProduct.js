@@ -1,9 +1,12 @@
 import React,{useState,useEffect} from 'react'
 import { getProduct } from '../redux/actions/productActions';
 import { useDispatch ,useSelector} from 'react-redux';
+import { getCategories } from '../redux/actions/categoriesAction';
 
 const AdminEditProduct = ({match}) => {
     const {product}=useSelector(state=> state.products)
+    const {categories}=useSelector(state=> state.categories)
+
     const dispatch=useDispatch()
     const productId=match.params.productId// match contains params from Route used in App.js
 
@@ -11,12 +14,13 @@ const AdminEditProduct = ({match}) => {
     const [productName,setProductName]=useState('');
     const [productDesc,setProductDesc]=useState('');
     const [productPrice,setProductPrice]=useState('');
-    const [producCategory,setProductCategory]=useState('');
+    const [productCategory,setProductCategory]=useState('');
     const [productQty,setProductQty]=useState('');
 
     useEffect(()=>{
         if(!product){
             dispatch(getProduct(productId))
+            dispatch(getCategories());
         }else{
             setProductImage(product.filename);
             setProductName(product.productName);
@@ -29,8 +33,7 @@ const AdminEditProduct = ({match}) => {
 
     return (
         <div>
-            {productImage}
-            {productName}
+            {JSON.stringify(categories)}
         </div>
     )
 }
