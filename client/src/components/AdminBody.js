@@ -8,7 +8,7 @@ const AdminBody = () => {
         <div className="container">
             <div className="row">
                 <div className="card-group">
-                    {products.map(product=>(
+                    {products&& products.map(product=>(
                         <Card key={product._id} product={product} />
                     ))}
                 </div>
