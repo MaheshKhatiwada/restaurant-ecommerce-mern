@@ -4,10 +4,11 @@ import {Link } from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
 import { getCategories } from "../redux/actions/categoriesAction";
 import AdminHeader from "./AdminHeader"
+import axios from "../api/axios";
 
 const baseUrl = "http://localhost:5000";
 
-const AdminEditProduct = ({ match }) => {
+const AdminEditProduct = ({ match ,history}) => {
   const { product } = useSelector((state) => state.products);
   const { categories } = useSelector((state) => state.categories);
 
@@ -35,14 +36,36 @@ const AdminEditProduct = ({ match }) => {
     }
   }, [dispatch, productId, product]);
 
-  const handleProductSubmit=()=>{
-
-  }
   const handleImageUpload=(e)=>{
     const image=e.target.files[0];
     setProductImage(image);
   }
 
+  const handleProductSubmit=async(e)=>{
+    e.preventDefault();
+
+    const formData= new FormData();
+    formData.append('productImage',productImage);
+    formData.append('productName',productName);
+    formData.append('productPrice',productPrice);
+    formData.append('productDesc',productDesc);
+    formData.append('productCategory',productCategory);
+    formData.append('productQty',productQty);
+
+    const config={
+      headers:{
+        'Content-Type':'multipart/form-data',
+      },
+    }
+    try {
+     await axios.put(`/api/product/${productId}`,formData,config)
+     history.push('/dashboard/admin')
+
+    } catch (error) {
+      console.log('failure',error)
+    }
+
+  }
   return (
     <div>
       <AdminHeader />
