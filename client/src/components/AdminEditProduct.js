@@ -4,9 +4,9 @@ import {Link } from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
 import { getCategories } from "../redux/actions/categoriesAction";
 import AdminHeader from "./AdminHeader"
-import axios from "../api/axios";
-
-const baseUrl = "http://localhost:5000";
+// import axios from "../api/axios";
+import axios from 'axios'
+//const baseUrl = "http://localhost:5000";
 
 const AdminEditProduct = ({ match ,history}) => {
   const { product } = useSelector((state) => state.products);
@@ -105,7 +105,9 @@ const AdminEditProduct = ({ match ,history}) => {
                             width: "120px",
                             height: "80px",
                           }}
-                          src={`${baseUrl}/uploads/${productImage}`}
+                          //src={`${baseUrl}/uploads/${productImage}`}
+                          src={`/uploads/${productImage}`}
+
                           alt="product"
                         />
                       ) : null}

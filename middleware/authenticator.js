@@ -1,5 +1,5 @@
 const jwt = require("jsonwebtoken");
-const { jwtSecret } = require("../config/keys");
+// const { jwtSecret } = require("../config/keys");
 
 exports.authenticateJWT = (req, res, next) => {
     const token=req.cookies.token;
@@ -9,7 +9,7 @@ exports.authenticateJWT = (req, res, next) => {
         })
     }
     try{
-        const decoded=jwt.verify(token,jwtSecret);
+        const decoded=jwt.verify(token,process.env.jwtSecret);
         req.user=decoded.user;
         next();
     }catch(error){

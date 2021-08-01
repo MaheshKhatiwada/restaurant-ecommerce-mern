@@ -1,4 +1,5 @@
-import axios from "../../api/axios";
+// import axios from "../../api/axios";
+import axios from 'axios'
 import { STOP_LOADING, START_LOADING } from "../constants/loadingConstants";
 import { ERROR_MESSAGE, SUCCESS_MESSAGE } from "../constants/messageConstants";
 import {

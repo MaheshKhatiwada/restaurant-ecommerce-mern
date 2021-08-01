@@ -1,7 +1,7 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt=require('jsonwebtoken');
-const {jwtSecret,jwtExpire}=require('../config/keys')
+// const {jwtSecret,jwtExpire}=require('../config/keys')
 
 exports.signupControllers = async (req, res) => {
   const { username, email, password } = req.body;
@@ -52,7 +52,7 @@ exports.signinControllers = async (req, res) => {
         _id:user._id,
       }
     }
-    jwt.sign(payload,jwtSecret,{expiresIn:jwtExpire},(err,token)=>{
+    jwt.sign(payload,process.env.jwtSecret,{expiresIn:process.env.jwtExpire},(err,token)=>{
       if(err) console.log('jwt error',err)
       const {_id,username,email,role}=user;
       res.json({

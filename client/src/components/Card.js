@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { deleteProduct } from "../redux/actions/productActions";
 
-const baseUrl = "http://localhost:5000";
+//const baseUrl = "http://localhost:5000";
 
 const Card = ({ product }) => {
   const dispatch = useDispatch();
@@ -17,7 +17,9 @@ const Card = ({ product }) => {
         <Link to="#">
           <img
             className="img-fluid w-100 "
-            src={`${baseUrl}/uploads/${product.filename}`}
+            //src={`${baseUrl}/uploads/${product.filename}`}
+            src={`/uploads/${product.filename}`}
+
             alt="product"
           />
         </Link>
