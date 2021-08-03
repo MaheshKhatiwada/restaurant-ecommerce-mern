@@ -1,7 +1,7 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
-const jwt=require('jsonwebtoken');
-// const {jwtSecret,jwtExpire}=require('../config/keys')
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 exports.signupControllers = async (req, res) => {
   const { username, email, password } = req.body;
@@ -47,23 +47,28 @@ exports.signinControllers = async (req, res) => {
         errorMsg: "Invalid Credentials!!!",
       });
     }
-    const payload={
-      user:{
-        _id:user._id,
+    const payload = {
+      user: {
+        _id: user._id,
+      },
+    };
+    console.log("secret", process.env.JWT_EXPIRE, process.env.JWT_SECRET);
+    jwt.sign(
+      payload,
+      process.env.JWT_SECRET,
+      { expiresIn: process.env.JWT_EXPIRE },
+      (err, token) => {
+        if (err) console.log("jwt error", err);
+        const { _id, username, email, role } = user;
+        res.json({
+          token,
+          user: { _id, username, email, role },
+        });
       }
-    }
-    jwt.sign(payload,process.env.jwtSecret,{expiresIn:process.env.jwtExpire},(err,token)=>{
-      if(err) console.log('jwt error',err)
-      const {_id,username,email,role}=user;
-      res.json({
-        token,
-        user:{_id,username,email,role},
-      })
-    })
-
+    );
   } catch (error) {
     res.status(500).json({
-       errorMsg: "Server Error",
-     });
+      errorMsg: "Server Error",
+    });
   }
 };

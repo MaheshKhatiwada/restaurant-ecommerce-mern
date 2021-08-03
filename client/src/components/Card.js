@@ -2,8 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { deleteProduct } from "../redux/actions/productActions";
-
-//const baseUrl = "http://localhost:5000";
+import { isAuthenticated } from "../common/auth";
 
 const Card = ({ product }) => {
   const dispatch = useDispatch();
@@ -17,9 +16,7 @@ const Card = ({ product }) => {
         <Link to="#">
           <img
             className="img-fluid w-100 "
-            //src={`${baseUrl}/uploads/${product.filename}`}
             src={`/uploads/${product.filename}`}
-
             alt="product"
           />
         </Link>
@@ -36,23 +33,35 @@ const Card = ({ product }) => {
               ? product.productDesc.substring(0, 60) + "..."
               : product.productDesc}
           </p>
-          <Link to={`/admin/edit/product/${product._id}`}
-            type="button"
-            className="btn btn-secondary btn-sm mr-1 my-1 mx-2"
-          >
-            <i className="far fa-edit pr-1 "></i>
-            Edit
-          </Link>
-          <button
-            type="button"
-            className="btn btn-danger btn-sm"
-            onClick={() => {
-              handleDelete(product._id);
-            }}
-          >
-            <i className="far fa-trash-alt pr-1 "></i>
-            Delete
-          </button>
+          {isAuthenticated().role === 1 ? (
+            <>
+              <Link
+                to={`/admin/edit/product/${product._id}`}
+                type="button"
+                className="btn btn-secondary btn-sm mr-1 my-1 mx-2"
+              >
+                <i className="far fa-edit pr-1 "></i>
+                Edit
+              </Link>
+              <button
+                type="button"
+                className="btn btn-danger btn-sm"
+                onClick={() => {
+                  handleDelete(product._id);
+                }}
+              >
+                <i className="far fa-trash-alt pr-1 "></i>
+                Delete
+              </button>
+            </>
+          ) : isAuthenticated().role === 0 ? (
+            <button type="button" className="btn btn-warning btn-sm">
+              <i className="fal fa-store  "></i>
+              Order
+            </button>
+          ) : (
+            <p className="text-secondary">Please Sign in  as user to order food and as an admin to edit,delete and view orders</p>
+          )}
         </div>
       </div>
     </div>

@@ -8,6 +8,7 @@ const authRoutes = require("./routes/auth");
 const categoryRoutes = require("./routes/category");
 const productRoutes = require("./routes/product");
 const path=require('path')
+require('dotenv').config()
 
 //middleware
 app.use(cors());
@@ -22,7 +23,7 @@ app.use("/uploads", express.static('uploads'));
 
 connectDB();
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT||5000
 //heroku
 if(process.env.NODE_ENV=='production'){
     app.use(express.static("client/build"));
